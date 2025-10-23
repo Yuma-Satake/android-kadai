@@ -1,6 +1,7 @@
 package jp.ac.nkc_ct4a14.flower_ct4a14
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -80,5 +81,9 @@ class MainActivity : AppCompatActivity() {
 
         val messageIndex = if (currentStep < statusMessages.size) currentStep else statusMessages.size - 1
         statusText.text = getString(statusMessages[messageIndex])
+
+        val isFullyGrown = currentStep >= maxStep - 1
+        waterButton.visibility = if (isFullyGrown) View.GONE else View.VISIBLE
+        resetButton.visibility = if (isFullyGrown) View.VISIBLE else View.GONE
     }
 }
