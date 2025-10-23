@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Sample_ct4a14</string>
+    <string name="bt_Asa">朝の挨拶</string>
+    <string name="bt_Hiru">昼の挨拶</string>
+    <string name="bt_Yoru">夜の挨拶</string>
+    <string name="greeting_morning">おはようございます!素敵な朝ですね</string>
+    <string name="greeting_afternoon">こんにちは!良い午後をお過ごしください</string>
+    <string name="greeting_evening">こんばんは!お疲れさまでした</string>
+    <string name="default_text">ボタンをタップして挨拶を表示</string>
+</resources>
