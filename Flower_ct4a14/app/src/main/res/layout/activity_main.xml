@@ -6,11 +6,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:padding="24dp"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="@string/message0"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp" />
+
+    <ImageView
+        android:id="@+id/plantImage"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/f0"
+        android:contentDescription="@string/img_flower"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/waterButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_water"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_reset"
+        android:textSize="16sp"
+        style="?attr/materialButtonOutlinedStyle" />
 
 </LinearLayout>
