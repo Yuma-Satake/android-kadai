@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Slider_ct4a14</string>
+    <string name="image_description">セピア色に加工された画像</string>
+    <string name="default_quote">人生は自転車に乗るようなものだ。バランスを保つには動き続けなければならない。\n- アルベルト・アインシュタイン</string>
 </resources>
