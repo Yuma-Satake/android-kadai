@@ -8,10 +8,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### プロジェクト構成
 
-- **Flower_ct4a14**: 花の成長シミュレーションアプリケーション（メインプロジェクト）
+- **Flower_ct4a14**: 花の成長シミュレーションアプリケーション
   - Package: `jp.ac.nkc_ct4a14.flower_ct4a14`
   - 水やりボタンで植物が成長し、段階的に画像が変化する機能を実装
   - プロジェクト固有のCLAUDE.mdが存在（詳細はそちらを参照）
+
+- **Hayakuchi_ct4a14**: 早口言葉再生アプリケーション
+  - Package: `jp.ac.nkc_ct4a14.hayakuchi_ct4a14`
+  - TextToSpeechを使用した音声再生機能
+  - 複数の再生スピード（達人/普通/簡単）をサポート
+  - 実装完了済み
 
 - **sample**: テンプレート/サンプルプロジェクト
   - Package: `jp.ac.nkc_ct4a14.sample_ct4a14`
@@ -39,6 +45,16 @@ cd Flower_ct4a14
 ./gradlew lint
 ```
 
+### Hayakuchi_ct4a14プロジェクトでの作業
+
+```bash
+cd Hayakuchi_ct4a14
+./gradlew build
+./gradlew assembleDebug
+./gradlew test
+./gradlew lint
+```
+
 ### sampleプロジェクトでの作業
 
 ```bash
@@ -59,57 +75,124 @@ cd sample
 ./gradlew connectedAndroidTest
 ```
 
-## アーキテクチャと設計パターン
+## 開発環境
 
-### 関数定義スタイル
+### Android SDK設定
 
-このプロジェクトでは、関数をラムダ式として `val functionName = { ... }` の形式で定義するパターンを使用しています。
+この環境のAndroid SDKは以下のパスにインストールされています：
 
-```kotlin
-private val initializeViews = {
-    statusText = findViewById(R.id.statusText)
-    plantImage = findViewById(R.id.plantImage)
-}
-
-private val setupListeners = {
-    waterButton.setOnClickListener { giveWater() }
-}
+```bash
+ANDROID_HOME=~/Library/Android/sdk
 ```
 
-この設計は以下の特徴があります:
-- 関数を値として扱い、イミュータブルな定数として定義
-- 関数型プログラミングのアプローチを採用
-- 引数や返り値を持たない場合に使用される傾向
+主要なツールのパス：
+- エミュレーター: `~/Library/Android/sdk/emulator/emulator`
+- ADB: `~/Library/Android/sdk/platform-tools/adb`
+- AVD Manager: `~/Library/Android/sdk/cmdline-tools/latest/bin/avdmanager`
 
-### UI更新パターン
+### エミュレーター管理
 
-状態（currentStep）が変更されたら `updateUI()` を呼び出して、画像とテキストを更新する一元化されたパターンを使用しています。
+#### 利用可能なAVDの確認
 
-## 依存関係管理
+```bash
+~/Library/Android/sdk/emulator/emulator -list-avds
+```
 
-両プロジェクトともVersion Catalogsを使用して依存関係を管理しています。
+現在利用可能なAVD：
+- `Pixel_7_Pro_API_34` - Android 14 (API 34)、推奨デバイス
 
-依存関係の追加手順:
-1. プロジェクトの `gradle/libs.versions.toml` にバージョンとライブラリを定義
-2. `app/build.gradle.kts` の `dependencies` ブロックで `libs.<library-name>` として参照
+#### エミュレーターの起動
 
-主な共通依存関係:
-- AndroidX Core KTX
-- AppCompat
-- Material Components
-- ConstraintLayout
-- JUnit (テスト)
-- Espresso (UIテスト)
+```bash
+# バックグラウンドで起動
+~/Library/Android/sdk/emulator/emulator -avd Pixel_7_Pro_API_34 &
 
-## リソース管理
+# デバイスが準備できるまで待機
+~/Library/Android/sdk/platform-tools/adb wait-for-device
+```
 
-### 文字列リソース
+#### エミュレーターの終了
 
-UI表示テキストは `res/values/strings.xml` で管理し、ハードコードを避けています。
+```bash
+# 接続されているデバイスを確認
+~/Library/Android/sdk/platform-tools/adb devices
 
-### ドローアブルリソース
+# エミュレーターを終了
+~/Library/Android/sdk/platform-tools/adb emu kill
 
-画像リソースは `res/drawable/` に配置し、コード内では `R.drawable.<resource_name>` で参照します。
+# プロセスが残っている場合の強制終了
+pkill -9 -f "emulator.*Pixel_7_Pro_API_34"
+```
+
+### アプリのインストールと起動
+
+#### デバッグビルドとインストール
+
+```bash
+# プロジェクトディレクトリに移動
+cd <project_directory>
+
+# デバッグビルド
+./gradlew assembleDebug
+
+# エミュレーターにインストール
+./gradlew installDebug
+
+# アプリを起動（パッケージ名を指定）
+~/Library/Android/sdk/platform-tools/adb shell am start -n jp.ac.nkc_ct4a14.<app_name>/.MainActivity
+```
+
+### ログとデバッグ
+
+#### ログの確認
+
+```bash
+# すべてのログを表示
+~/Library/Android/sdk/platform-tools/adb logcat
+
+# 特定のタグでフィルタリング
+~/Library/Android/sdk/platform-tools/adb logcat -d | grep -E "MainActivity"
+
+# ログをクリア
+~/Library/Android/sdk/platform-tools/adb logcat -c
+```
+
+#### デバイス情報の確認
+
+```bash
+# 接続されているデバイス一覧
+~/Library/Android/sdk/platform-tools/adb devices
+
+# デバイスの音量設定を確認
+~/Library/Android/sdk/platform-tools/adb shell settings get system volume_music
+
+# オーディオ設定の詳細
+~/Library/Android/sdk/platform-tools/adb shell dumpsys audio | grep -E "volume"
+```
+
+### トラブルシューティング
+
+#### エミュレーターの音声が聞こえない場合
+
+1. エミュレーターを再起動する
+2. macOSのオーディオ設定を確認する
+3. エミュレーターの音量設定を確認する
+
+#### アプリのインストールに失敗する場合
+
+```bash
+# 既存のアプリをアンインストール
+~/Library/Android/sdk/platform-tools/adb uninstall jp.ac.nkc_ct4a14.<app_name>
+
+# 再度インストール
+./gradlew installDebug
+```
+
+#### エミュレーターが起動しない場合
+
+1. 既存のエミュレータープロセスを終了する
+2. AVDのキャッシュをクリアする（Android Studio経由）
+3. エミュレーターを再起動する
 
 ## プロジェクト間の違いに注意
 
