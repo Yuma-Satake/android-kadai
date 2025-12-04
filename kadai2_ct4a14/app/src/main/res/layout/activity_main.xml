@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_title"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ibMyChoki"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageButton
+        android:id="@+id/ibMyGu"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/my_gu"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent"
+        android:contentDescription="グー"
+        app:layout_constraintEnd_toStartOf="@id/ibMyChoki"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibMyChoki"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/my_choki"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent"
+        android:contentDescription="チョキ"
+        app:layout_constraintEnd_toStartOf="@id/ibMyPa"
+        app:layout_constraintStart_toEndOf="@id/ibMyGu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibMyPa"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/my_pa"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent"
+        android:contentDescription="パー"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ibMyChoki"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

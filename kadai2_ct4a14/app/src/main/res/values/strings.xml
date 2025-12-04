@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">kadai2_ct4a14</string>
+    <string name="tv_title">ジャンケン・・・</string>
+    <string name="tv_win">私の勝ちです。</string>
+    <string name="tv_lose">私の負けです。</string>
+    <string name="tv_draw">あいこです。</string>
+    <string name="bt_back">戻る</string>
+</resources>
